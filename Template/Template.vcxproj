@@ -198,6 +198,7 @@
     <ClInclude Include="..\src\GameObject.h" />
     <ClInclude Include="..\src\Label.h" />
     <ClInclude Include="..\src\Mine.h" />
+    <ClInclude Include="..\src\MoveState.h" />
     <ClInclude Include="..\src\Planet.h" />
     <ClInclude Include="..\src\PlayScene.h" />
     <ClInclude Include="..\src\Scene.h" />

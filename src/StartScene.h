@@ -36,6 +36,16 @@ private:
 	bool m_exitApp = false;
 	bool m_displayAbout = false;
 	bool m_displayUI = true;
+
+	// Physics Variables
+	float m_gravity = 9.8f;
+	int m_PPM = 10; // pixels per meter
+	glm::vec2 m_position = glm::vec2(0.0f, 0.0f);
+	glm::vec2 m_velocity = glm::vec2(0.0f, 0.0f);
+	glm::vec2 m_acceleration = glm::vec2(0.0f, 0.0f);
+
+	// Physics functions
+	void m_move();
 };
 
 #endif /* defined (__START_SCENE__) */
