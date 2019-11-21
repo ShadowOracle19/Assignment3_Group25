@@ -21,6 +21,8 @@ void StartScene::draw()
 	m_pInstructionsLabel->draw();*/
 
 	m_pShip->draw();
+	m_pPlanet->draw();
+	m_pMine->draw();
 
 	// ImGui Rendering section - DO NOT MOVE OR DELETE
 	if (m_displayUI)
@@ -35,6 +37,8 @@ void StartScene::update()
 {
 	m_move();
 	m_pShip->update();
+	m_pPlanet->update();
+	m_pMine->update();
 
 	if (m_displayUI)
 	{
@@ -163,10 +167,15 @@ void StartScene::start()
 	addChild(m_pShip);
 
 	m_moveState = MOVE_IDLE;
+	m_speedFactor = glm::vec2(2.0f, 2.0f);
 
 	// Instantiate a Planet
-
+	m_pPlanet = new Planet();
+	m_pPlanet->setPosition(glm::vec2(200.0f, 100.0));
+	
 	// Instantiate a Space Mine
+	m_pMine = new Mine();
+	m_pMine->setPosition(glm::vec2(200.0f, 200.0));
 }
 
 void StartScene::m_ImGuiKeyMap()
@@ -526,6 +535,6 @@ void StartScene::m_move()
 	}
 
 	
-	m_position = m_pShip->getPosition() + m_velocity; // +m_acceleration;
+	m_position = m_pShip->getPosition() + m_velocity * m_speedFactor; // +m_acceleration;
 	m_pShip->setPosition(m_position);
 }

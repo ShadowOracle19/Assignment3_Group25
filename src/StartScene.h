@@ -6,6 +6,10 @@
 #include "Label.h"
 #include "ship.h"
 #include "MoveState.h"
+#include "Planet.h"
+#include "Mine.h"
+#include "CollisionManager.h"
+#include "SoundManager.h"
 
 class StartScene : public Scene
 {
@@ -24,8 +28,16 @@ private:
 	/*Label* m_pStartLabel;
 	Label* m_pInstructionsLabel;*/
 
+	// Ship Stuff
 	Ship* m_pShip;
 	MoveState m_moveState;
+	glm::vec2 m_speedFactor;
+
+	// Planet Stuff
+	Planet* m_pPlanet;
+
+	// Mine Stuff
+	Mine* m_pMine;
 
 	glm::vec2 m_mousePosition;
 

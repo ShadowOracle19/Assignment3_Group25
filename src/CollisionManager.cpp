@@ -26,11 +26,11 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 
 			switch (object2->getType()) {
 			case PLANET:
-				//std::cout << "Collision with Island!" << std::endl;
+				std::cout << "Collision with Planet!" << std::endl;
 				TheSoundManager::Instance()->playSound("yay", 0);
 				break;
 			case MINE:
-				//std::cout << "Collision with Cloud!" << std::endl;
+				std::cout << "Collision with Mine!" << std::endl;
 				TheSoundManager::Instance()->playSound("thunder", 0);
 				break;
 			default:
@@ -40,6 +40,11 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 
 			return true;
 		}
+		return false;
+	}
+	else
+	{
+		object2->setIsColliding(false);
 		return false;
 	}
 
