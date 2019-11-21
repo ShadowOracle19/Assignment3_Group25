@@ -5,6 +5,7 @@
 #include "Scene.h"
 #include "Label.h"
 #include "ship.h"
+#include "MoveState.h"
 
 class StartScene : public Scene
 {
@@ -24,6 +25,7 @@ private:
 	Label* m_pInstructionsLabel;*/
 
 	Ship* m_pShip;
+	MoveState m_moveState;
 
 	glm::vec2 m_mousePosition;
 

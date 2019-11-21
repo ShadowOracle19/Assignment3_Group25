@@ -87,16 +87,16 @@ void StartScene::handleEvents()
 			
 			/***************************************************************/
 			case SDLK_w:
-				
+				m_moveState = MOVE_UP;
 				break;
 			case SDLK_s:
-				
+				m_moveState = MOVE_DOWN;
 				break;
 			case SDLK_a:
-				
+				m_moveState = MOVE_LEFT;
 				break;
 			case SDLK_d:
-				
+				m_moveState = MOVE_RIGHT;
 				break;
 			}
 			{
@@ -113,18 +113,16 @@ void StartScene::handleEvents()
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_w:
-				
+				m_moveState = MOVE_IDLE;
 				break;
-
 			case SDLK_s:
-				
+				m_moveState = MOVE_IDLE;
 				break;
-
 			case SDLK_a:
-				
+				m_moveState = MOVE_IDLE;
 				break;
 			case SDLK_d:
-				
+				m_moveState = MOVE_IDLE;
 				break;
 			}
 			{
@@ -163,6 +161,8 @@ void StartScene::start()
 	m_pShip = new Ship();
 	m_pShip->setPosition(m_position);
 	addChild(m_pShip);
+
+	m_moveState = MOVE_IDLE;
 
 	// Instantiate a Planet
 
@@ -500,6 +500,32 @@ void StartScene::m_move()
 {
 	//m_acceleration = glm::vec2(0.0f, 0.5 * m_gravity * m_PPM);
 
+	if(m_moveState == MOVE_UP)
+	{
+		m_velocity = glm::vec2(m_velocity.x, -1.0f);
+	}
+
+	if (m_moveState == MOVE_DOWN)
+	{
+		m_velocity = glm::vec2(m_velocity.x, 1.0f);
+	}
+
+	if (m_moveState == MOVE_LEFT)
+	{
+		m_velocity = glm::vec2(-1.0f, m_velocity.y);
+	}
+
+	if (m_moveState == MOVE_RIGHT)
+	{
+		m_velocity = glm::vec2(1.0f, m_velocity.y);
+	}
+
+	if (m_moveState == MOVE_IDLE)
+	{
+		m_velocity = glm::vec2(0.0f, 0.0f);
+	}
+
+	
 	m_position = m_pShip->getPosition() + m_velocity; // +m_acceleration;
 	m_pShip->setPosition(m_position);
 }
