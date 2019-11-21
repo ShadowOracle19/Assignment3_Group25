@@ -47,8 +47,12 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 		object2->setIsColliding(false);
 		return false;
 	}
+}
 
-	
+bool CollisionManager::AABBCheck(GameObject * object1, GameObject * object2)
+{
+	//TODO: write the AABBCheck Algorithm in here
+	return false;
 }
 
 bool CollisionManager::lineLineCheck(glm::vec2 line1Start, glm::vec2 line1End, glm::vec2 line2Start, glm::vec2 line2End)

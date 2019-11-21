@@ -40,6 +40,12 @@ void StartScene::update()
 	m_pPlanet->update();
 	m_pMine->update();
 
+	//CollisionManager::squaredRadiusCheck(m_pShip, m_pPlanet);
+	//CollisionManager::squaredRadiusCheck(m_pShip, m_pMine);
+	//
+	//TODO: CollisionManager::AABBCheck(m_pShip, m_pPlanet);
+	////TODO: CollisionManager::AABBCheck(m_pShip, m_pMine);
+	
 	if (m_displayUI)
 	{
 		m_updateUI();
@@ -161,6 +167,13 @@ void StartScene::handleEvents()
 
 void StartScene::start()
 {
+	TheSoundManager::Instance()->load(
+		"../Assets/audio/yay.ogg", 
+		"yay", SOUND_SFX);
+	TheSoundManager::Instance()->load(
+		"../Assets/audio/thunder.ogg", 
+		"thunder", SOUND_SFX);
+
 	m_position = glm::vec2(100.0f, 100.0f);
 	m_pShip = new Ship();
 	m_pShip->setPosition(m_position);
