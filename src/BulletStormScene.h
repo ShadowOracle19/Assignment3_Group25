@@ -1,20 +1,22 @@
 #pragma once
-#ifndef __START_SCENE__
-#define __START_SCENE__
+#ifndef __BULLET_SCENE__
+#define __BULLET_SCENE__
 
 #include "Scene.h"
 #include "Label.h"
-#include "Brick.h"
+#include "Ship.h"
 #include "MoveState.h"
-#include "Ball.h"
+#include "Planet.h"
+#include "Mine.h"
+#include "Bullet.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
 
-class StartScene : public Scene
+class BulletStormScene : public Scene
 {
 public:
-	StartScene();
-	~StartScene();
+	BulletStormScene();
+	~BulletStormScene();
 
 	// Inherited via Scene
 	virtual void draw() override;
@@ -28,13 +30,12 @@ private:
 	Label* m_pInstructionsLabel;*/
 
 	// Ship Stuff
-	Brick* m_pBrick;
+	Ship* m_pShip;
 	MoveState m_moveState;
 	glm::vec2 m_speedFactor;
 
-
-	//ball
-	Ball* m_pBall;
+	//bullet
+	Bullet* m_pBullet[10];
 
 	glm::vec2 m_mousePosition;
 	glm::vec2 m_prevMousePosition = glm::vec2(100.0f, 100.0f);
@@ -46,7 +47,7 @@ private:
 	void m_updateUI();
 
 	// ImGui menu variables
-	bool m_exitApp = false; 
+	bool m_exitApp = false;
 	bool m_displayAbout = false;
 	bool m_displayUI = true;
 
@@ -58,7 +59,7 @@ private:
 	glm::vec2 m_acceleration = glm::vec2(0.0f, 0.0f);
 
 	// Physics functions
-	void m_move();
+	//void m_move();
 };
 
-#endif /* defined (__START_SCENE__) */
+#endif /* defined (__BULLET_SCENE__) */

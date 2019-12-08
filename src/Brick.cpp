@@ -1,4 +1,4 @@
-#include "ship.h"
+#include "Brick.h"
 #include "Game.h"
 #include "Util.h"
 #include "GLM/gtx/rotate_vector.hpp"
@@ -8,13 +8,13 @@
 
 
 
-Ship::Ship() :
+Brick::Brick() :
 	m_maxSpeed(5.0f), m_currentDirection(0.0f), m_turnSpeed(2.0f), m_steerForce(0.1f), m_currentTile(NULL)
 {
-	TheTextureManager::Instance()->load("../Assets/textures/ship3.png",
-		"ship", TheGame::Instance()->getRenderer());
+	TheTextureManager::Instance()->load("../Assets/textures/brick.png",
+		"brick", TheGame::Instance()->getRenderer());
 
-	glm::vec2 size = TheTextureManager::Instance()->getTextureSize("ship");
+	glm::vec2 size = TheTextureManager::Instance()->getTextureSize("brick");
 	setWidth(size.x);
 	setHeight(size.y);
 	setPosition(glm::vec2(400.0f, 300.0f));
@@ -26,20 +26,20 @@ Ship::Ship() :
 }
 
 
-Ship::~Ship()
+Brick::~Brick()
 {
 }
 
-void Ship::draw()
+void Brick::draw()
 {
 	int xComponent = getPosition().x;
 	int yComponent = getPosition().y;
 
-	TheTextureManager::Instance()->draw("ship", xComponent, yComponent,
+	TheTextureManager::Instance()->draw("brick", xComponent, yComponent,
 		TheGame::Instance()->getRenderer(), m_currentDirection, 255, true);
 }
 
-void Ship::m_checkState()
+void Brick::m_checkState()
 {
 	switch (getState())
 	{
@@ -59,28 +59,28 @@ void Ship::m_checkState()
 	}
 }
 
-void Ship::update()
+void Brick::update()
 {
 	//move();
 }
 
-void Ship::clean()
+void Brick::clean()
 {
 	delete m_currentTile;
 	m_currentTile = NULL;
 }
 
-void Ship::turnRight()
+void Brick::turnRight()
 {
 	m_currentDirection += m_turnSpeed;
-	if (m_currentDirection >= 360)
+	if (m_currentDirection >= 360) 
 	{
 		m_currentDirection = 0;
 	}
 
 }
 
-void Ship::turnLeft()
+void Brick::turnLeft()
 {
 	m_currentDirection -= m_turnSpeed;
 	if (m_currentDirection < 0)
@@ -89,7 +89,7 @@ void Ship::turnLeft()
 	}
 }
 
-void Ship::move()
+void Brick::move()
 {
 	if (Util::distance(getPosition(), m_target) > 1.0f) {
 		glm::vec2 desired = Util::normalize(m_target - getPosition()) * m_maxSpeed;
@@ -99,31 +99,31 @@ void Ship::move()
 		glm::vec2 newPosition = getPosition() + getVelocity();
 		setPosition(newPosition);
 	}
-
+	
 
 }
 
-Tile* Ship::getTile()
+Tile * Brick::getTile()
 {
 	return m_currentTile;
 }
 
-void Ship::setTile(Tile* newTile)
+void Brick::setTile(Tile* newTile)
 {
 	m_currentTile = newTile;
 }
 
-glm::vec2 Ship::getTarget()
+glm::vec2 Brick::getTarget()
 {
 	return m_target;
 }
 
-void Ship::setTarget(glm::vec2 position)
+void Brick::setTarget(glm::vec2 position)
 {
 	m_target = position;
 }
 
-void Ship::setRotation(float angle)
+void Brick::setRotation(float angle)
 {
 	m_currentDirection = angle;
 	auto size = TheTextureManager::Instance()->getTextureSize("ship");
@@ -132,7 +132,7 @@ void Ship::setRotation(float angle)
 }
 
 
-void Ship::m_checkBounds()
+void Brick::m_checkBounds()
 {
 
 	if (getPosition().x > Config::SCREEN_WIDTH)
@@ -157,7 +157,7 @@ void Ship::m_checkBounds()
 
 }
 
-void Ship::m_reset()
+void Brick::m_reset()
 {
 	setIsColliding(false);
 	int halfWidth = getWidth() * 0.5;
@@ -166,7 +166,7 @@ void Ship::m_reset()
 	setPosition(glm::vec2(xComponent, yComponent));
 }
 
-void Ship::m_seek()
+void Brick::m_seek()
 {
 	glm::vec2 desired = Util::normalize(m_target - getPosition()) * m_maxSpeed;
 	glm::vec2 steer = (desired - getVelocity());

@@ -12,7 +12,7 @@ enum SceneState
 {
 	NO_SCENE = -1,
 	START_SCENE,
-	PLAY_SCENE,
+	BULLET_SCENE,
 	END_SCENE,
 	NUM_OF_SCENES
 };

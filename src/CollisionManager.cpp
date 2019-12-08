@@ -1,6 +1,8 @@
 #include "CollisionManager.h"
-
-
+#include "Util.h"
+#include "GameObject.h"
+#include <algorithm>
+#include "Bullet.h"
 
 int CollisionManager::squaredDistance(glm::vec2 P1, glm::vec2 P2)
 {
@@ -15,13 +17,63 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 {
 	glm::vec2 P1 = object1->getPosition();
 	glm::vec2 P2 = object2->getPosition();
-	int halfHeights = (object1->getHeight() + object2->getHeight()) * 0.5;
+	int halfHeights = (object1->getHeight() + object2->getHeight()) * 0.5f;
+	
 
-	//if (glm::distance(P1, P2) < halfHeights) {
+		if (CollisionManager::squaredDistance(P1, P2) < (halfHeights * halfHeights)) {
+			if (!object2->getIsColliding()) {
 
-	if (CollisionManager::squaredDistance(P1, P2) < (halfHeights * halfHeights)) {
+				object2->setIsColliding(true);
+
+				switch (object2->getType()) {
+					/*case MINE:
+						std::cout << "Collision with Mine!" << std::endl;
+						TheSoundManager::Instance()->playSound("thunder", 0);
+						break;*/
+
+				case BALL:
+					std::cout << "Collision with Bullet!" << std::endl;
+					TheSoundManager::Instance()->playSound("thunder", 0);
+					break;
+
+				default:
+					//std::cout << "Collision with unknown type!" << std::endl;
+					break;
+				}
+
+				return true;
+			}
+			//bullet.setHit(true);
+			return false;
+		}
+		else
+		{
+			object2->setIsColliding(false);
+			return false;
+		}
+		
+}
+
+bool CollisionManager::AABBCheck(GameObject * object1, GameObject * object2)
+{
+	glm::vec2 P1 = object1->getPosition();
+	glm::vec2 P2 = object2->getPosition();
+	float P1width = object1->getWidth();
+	float P1height = object1->getHeight();
+	float P2width = object2->getWidth();
+	float P2height = object2->getHeight();
+
+	
+
+	if(
+		P1.x < P2.x + P2width &&
+		P1.x + P1width > P2.x &&
+		P1.y < P2.y + P2height &&
+		P1.y + P1height > P2.y
+		)
+	{
 		if (!object2->getIsColliding()) {
-			
+
 			object2->setIsColliding(true);
 
 			switch (object2->getType()) {
@@ -33,9 +85,41 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 				std::cout << "Collision with Mine!" << std::endl;
 				TheSoundManager::Instance()->playSound("thunder", 0);
 				break;
+			case BALL:
+				std::cout << "Collision with Ball!" << std::endl;
+				TheSoundManager::Instance()->playSound("thunder", 0);
+
+				std::cout << "X: " << object1->getVelocity().x << ", Y: " << object1->getVelocity().y << std::endl;
+				// Left
+				if (lineLineCheck(glm::vec2(P1.x + P1width / 2, P1.y + P1height / 2), glm::vec2(P2.x + P2width / 2, P2.y + P2height / 2), glm::vec2(P2.x, P2.y), glm::vec2(P2.x, P2.y + P2height)))
+				{
+					object2->setVelocity(glm::vec2(-object2->getVelocity().x + object1->getVelocity().x, object2->getVelocity().y + object1->getVelocity().y));
+					
+				}
+
+				// Right
+				if (lineLineCheck(glm::vec2(P1.x + P1width / 2, P1.y + P1height / 2), glm::vec2(P2.x + P2width / 2, P2.y + P2height / 2), glm::vec2(P2.x + P2width, P2.y), glm::vec2(P2.x + P2width, P2.y + P2height)))
+				{
+					object2->setVelocity(glm::vec2(-object2->getVelocity().x + object1->getVelocity().x, object2->getVelocity().y + object1->getVelocity().y));
+				}
+
+				// Top
+				if (lineLineCheck(glm::vec2(P1.x + P1width / 2, P1.y + P1height / 2), glm::vec2(P2.x + P2width / 2, P2.y + P2height / 2), glm::vec2(P2.x, P2.y), glm::vec2(P2.x + P2width, P2.y)))
+				{
+					object2->setVelocity(glm::vec2(object2->getVelocity().x + object1->getVelocity().x, -object2->getVelocity().y + object1->getVelocity().y));
+				
+				}
+				
+				// Bottom
+				if (lineLineCheck(glm::vec2(P1.x + P1width / 2, P1.y + P1height / 2), glm::vec2(P2.x + P2width / 2, P2.y + P2height / 2), glm::vec2(P2.x, P2.y + P2height), glm::vec2(P2.x + P2width, P2.y + P2height)))
+				{
+					object2->setVelocity(glm::vec2(object2->getVelocity().x + object1->getVelocity().x, -object2->getVelocity().y + object1->getVelocity().y));
+				
+				}
+				break;
 			default:
 				//std::cout << "Collision with unknown type!" << std::endl;
-					break;
+				break;
 			}
 
 			return true;
@@ -47,11 +131,7 @@ bool CollisionManager::squaredRadiusCheck(GameObject * object1, GameObject * obj
 		object2->setIsColliding(false);
 		return false;
 	}
-}
-
-bool CollisionManager::AABBCheck(GameObject * object1, GameObject * object2)
-{
-	//TODO: write the AABBCheck Algorithm in here
+	
 	return false;
 }
 
@@ -105,6 +185,67 @@ bool CollisionManager::lineRectCheck(glm::vec2 line1Start, glm::vec2 line1End, g
 		return true;
 	}
 
+	return false;
+}
+
+float CollisionManager::cirlcleAABBSquaredDistance(glm::vec2 circleCentre, int circleRadius, glm::vec2 boxStart, int boxWidth, int boxHeight)
+{
+	float dx = std::max(boxStart.x - circleCentre.x, 0.0f);
+	dx = std::max(dx, circleCentre.x - (boxStart.x + boxWidth));
+	float dy = std::max(boxStart.y - circleCentre.y, 0.0f);
+	dy = std::max(dy, circleCentre.y - (boxStart.y + boxHeight));
+	float sqDist = (dx * dx) + (dy * dy);
+
+
+
+	return sqDist;
+}
+
+bool CollisionManager::circleAABBCheck(GameObject* object1, GameObject* object2)
+{
+	glm::vec2 circleCentre = object1->getPosition();
+	int circleRadius = std::max(object1->getWidth(), object1->getHeight());
+
+
+
+	int boxWidth = object2->getWidth();
+	int boxHeight = object2->getHeight();
+	glm::vec2 boxStart = object2->getPosition() - glm::vec2(boxWidth * 0.5, boxHeight * 0.5);
+
+	if (cirlcleAABBSquaredDistance(circleCentre, circleRadius, boxStart, boxWidth, boxHeight) <= (circleRadius * circleRadius))
+	{
+		if (!object2->getIsColliding()) {
+
+			object2->setIsColliding(true);
+
+			switch (object2->getType()) {
+			case PLANET:
+				std::cout << "Collision with Planet!" << std::endl;
+				TheSoundManager::Instance()->playSound("yay", 0);
+				break;
+			case MINE:
+				std::cout << "Collision with Mine!" << std::endl;
+				TheSoundManager::Instance()->playSound("thunder", 0);
+				break;
+			case BULLET:
+				std::cout << "Collision with Ball!" << std::endl;
+				TheSoundManager::Instance()->playSound("thunder", 0);
+				break;
+			default:
+				//std::cout << "Collision with unknown type!" << std::endl;
+				break;
+			}
+
+			return true;
+		}
+		return false;
+	}
+
+	else
+	{
+		object2->setIsColliding(false);
+		return false;
+	}
 	return false;
 }
 

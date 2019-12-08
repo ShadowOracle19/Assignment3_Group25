@@ -78,9 +78,6 @@
     <ClCompile Include="..\src\Planet.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ship.cpp">
-      <Filter>Game Objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Target.cpp">
       <Filter>Game Objects</Filter>
     </ClCompile>
@@ -98,6 +95,21 @@
     </ClCompile>
     <ClCompile Include="..\src\DisplayObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Ball.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\BulletStormScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Bullet.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Brick.cpp">
+      <Filter>Game Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ship.cpp">
+      <Filter>Game Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +173,6 @@
     <ClInclude Include="..\src\Planet.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ship.h">
-      <Filter>Game Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Target.h">
       <Filter>Game Objects</Filter>
     </ClInclude>
@@ -184,6 +193,21 @@
     </ClInclude>
     <ClInclude Include="..\src\MoveState.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Ball.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BulletStormScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Bullet.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Brick.h">
+      <Filter>Game Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ship.h">
+      <Filter>Game Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

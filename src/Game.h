@@ -22,6 +22,7 @@
 #include "Util.h"
 
 // Scenes
+#include "BulletStormScene.h"
 #include "StartScene.h"
 #include "PlayScene.h"
 #include "EndScene.h"

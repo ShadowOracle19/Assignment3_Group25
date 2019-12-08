@@ -11,6 +11,7 @@
 #include "Label.h"
 #include "Planet.h"
 #include "Mine.h"
+#include "Brick.h"
 
 #include <memory>
 
@@ -42,6 +43,7 @@ public:
 private:
 	// GameObjects
 	Ship m_ship;
+	Brick m_brick;
 	std::vector<Mine> m_pMines;
 	Target m_pTarget;
 	Label* m_pLabel;

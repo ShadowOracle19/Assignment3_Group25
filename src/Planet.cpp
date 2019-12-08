@@ -30,6 +30,7 @@ void Planet::draw()
 
 void Planet::update()
 {
+
 }
 
 void Planet::clean()

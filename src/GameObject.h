@@ -10,6 +10,8 @@ enum GameObjectType {
 	SHIP,
 	TARGET,
 	PLANET,
+	BULLET,
+	BALL,
 	MINE,
 	TILE,
 	NUM_OF_TYPES
@@ -39,6 +41,7 @@ public:
 	// remove anything that needs to be deleted
 	virtual void clean() = 0;
 
+
 	// getters for common variables
 	glm::vec2 getPosition();
 	glm::vec2 getRotation();
@@ -60,6 +63,7 @@ public:
 	void setType(GameObjectType newType);
 	void setState(State newState);
 	void setAcceleration(glm::vec2 newAcceleration);
+
 
 private:
 	// transform variables

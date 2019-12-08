@@ -3,6 +3,8 @@
 #define __Util__
 
 #include "GLM/vec2.hpp"
+#include "GLM/vec4.hpp"
+
 
 
 class Util
@@ -36,6 +38,10 @@ public:
 	static glm::vec2 normalize(glm::vec2 vec);
 	static float angle(glm::vec2 from, glm::vec2 to);
 	static float dot(glm::vec2 lhs, glm::vec2 rhs);
+
+	static void DrawLine(glm::vec2 start, glm::vec2 end, glm::vec4 colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	static void DrawRect(glm::vec2 position, int width, int height, glm::vec4 colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	static void DrawCircle(glm::vec2 centre, int radius, glm::vec4 colour = glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 
 };
 #endif /* defined (__Util__) */

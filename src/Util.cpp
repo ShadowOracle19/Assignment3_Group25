@@ -1,6 +1,10 @@
 #include "Util.h"
 #include "GLM/gtc/constants.hpp"
 #include "GLM/gtx/norm.hpp"
+#include "Game.h"
+#include <math.h>
+#include <SDL.h>
+
 
 const float Util::EPSILON = glm::epsilon<float>();
 const float Util::Deg2Rad = glm::pi<float>() / 180.0f;
@@ -258,6 +262,88 @@ float Util::angle(glm::vec2 from, glm::vec2 to)
 float Util::dot(glm::vec2 lhs, glm::vec2 rhs)
 {
 	return lhs.x * rhs.x + lhs.y * rhs.y;
+}
+
+void Util::DrawLine(glm::vec2 start, glm::vec2 end, glm::vec4 colour)
+{
+	int r = floor(colour.r * 255.0f);
+	int g = floor(colour.g * 255.0f);
+	int b = floor(colour.b * 255.0f);
+	int a = floor(colour.a * 255.0f);
+	
+	auto renderer = TheGame::Instance()->getRenderer();
+	
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_RenderDrawLine(renderer, start.x, start.y, end.x, end.y);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+}
+
+void Util::DrawRect(glm::vec2 position, int width, int height, glm::vec4 colour)
+{
+	int r = floor(colour.r * 255.0f);
+	int g = floor(colour.g * 255.0f);
+	int b = floor(colour.b * 255.0f);
+	int a = floor(colour.a * 255.0f);
+
+	SDL_Rect rectangle;
+	rectangle.x = position.x;
+	rectangle.y = position.y;
+	rectangle.w = width;
+	rectangle.h = height;
+
+	auto renderer = TheGame::Instance()->getRenderer();
+
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	SDL_RenderDrawRect(renderer, &rectangle);
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+}
+
+void Util::DrawCircle(glm::vec2 centre, int radius, glm::vec4 colour)
+{
+	int r = floor(colour.r * 255.0f);
+	int g = floor(colour.g * 255.0f);
+	int b = floor(colour.b * 255.0f);
+	int a = floor(colour.a * 255.0f);
+
+	auto renderer = TheGame::Instance()->getRenderer();
+
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+	int diameter = floor(radius * 2.0f);
+
+	int x = (radius - 1);
+	int y = 0;
+	int tx = 1;
+	int ty = 1;
+	int error = (tx - diameter);
+
+	while (x >= y)
+	{
+		//  Each of the following renders an octant of the circle
+		SDL_RenderDrawPoint(renderer, centre.x + x, centre.y - y);
+		SDL_RenderDrawPoint(renderer, centre.x + x, centre.y + y);
+		SDL_RenderDrawPoint(renderer, centre.x - x, centre.y - y);
+		SDL_RenderDrawPoint(renderer, centre.x - x, centre.y + y);
+		SDL_RenderDrawPoint(renderer, centre.x + y, centre.y - x);
+		SDL_RenderDrawPoint(renderer, centre.x + y, centre.y + x);
+		SDL_RenderDrawPoint(renderer, centre.x - y, centre.y - x);
+		SDL_RenderDrawPoint(renderer, centre.x - y, centre.y + x);
+
+		if (error <= 0)
+		{
+			++y;
+			error += ty;
+			ty += 2;
+		}
+
+		if (error > 0)
+		{
+			--x;
+			tx += 2;
+			error += (tx - diameter);
+		}
+	}
+
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 }
 
 
